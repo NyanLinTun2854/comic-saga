@@ -1,26 +1,38 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { useMediaQuery } from "@mui/material";
+import { ThemeProvider, createTheme, useTheme } from "@mui/material/styles";
+import { match } from "assert";
+import React from "react";
+import PCRouter from "./pc/PCRouter";
+import MobileRouter from "./mobile/MobileRouter";
 
-function App() {
+const MyComponent = () => {
+  // function useIsWidthUp(breakpoint) {
+  //   const theme = useTheme();
+  //   return useMediaQuery(theme.breakpoints.up(breakpoint));
+  // }
+  // function useIsWidthDown(breakpoint: string) {
+  //   const theme = useTheme();
+  //   return useMediaQuery(theme.breakpoints.down(breakpoint));
+  // // }
+  // const isMdUp = useIsWidthUp("md");
+  // const isMdDown = useIsWidthDown("md");
+
+  const theme = useTheme();
+  const isMdUp = useMediaQuery(theme.breakpoints.up("md"));
+
+  if (isMdUp) {
+    return <PCRouter />;
+  } else {
+    return <MobileRouter />;
+  }
+};
+
+const theme = createTheme();
+
+export default function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <ThemeProvider theme={theme}>
+      <MyComponent />
+    </ThemeProvider>
   );
 }
-
-export default App;
